@@ -1,5 +1,4 @@
-## Ratebeer project
+# Ratebeer project
 
-infinite-fjord-61010.herokuapp.com/breweries
+[Ratebeer](https://infinite-fjord-61010.herokuapp.com/breweries)
 
-infinite-fjord-61010.herokuapp.com/beers
