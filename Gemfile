@@ -9,6 +9,8 @@ gem 'rails', '4.2.4'
 # Added for heroku use
 group :development, :test do
   gem 'sqlite3'
+  gem 'pry-rails'
+  gem 'pry-theme'
 end
 
 group :production do
