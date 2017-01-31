@@ -15,14 +15,23 @@ class RatingsController < ApplicationController
   def create
     # Rating.create beer_id: params[:rating][:beer_id], score: params[:rating][:score]
     # is same as;
-    Rating.create params.require(:rating).permit(:score, :beer_id)
-    redirect_to ratings_path
+    @rating = Rating.new params.require(:rating).permit(:score, :beer_id)
+
+    if @rating.save
+      current_user.ratings << @rating
+      # Stored in the session where rating was done
+      #session[:last_rating] = "#{rating.beer.name} - #{rating.score} points"
+      redirect_to current_user
+    else
+      @beers = Beer.all
+      render :new
+    end
   end
 
   def destroy
     rating = Rating.find(params[:id])
     rating.delete
-    redirect_to ratings_path
+    redirect_to :back
   end
 
 end
