@@ -15,6 +15,7 @@ class MembershipsController < ApplicationController
   # GET /memberships/new
   def new
     @membership = Membership.new
+    @beer_clubs = BeerClub.all.reject{ |club| current_user.in? club.members }
   end
 
   # GET /memberships/1/edit
@@ -24,17 +25,28 @@ class MembershipsController < ApplicationController
   # POST /memberships
   # POST /memberships.json
   def create
-    @membership = Membership.new(membership_params)
+    #@membership = Membership.new(membership_params)
+    @membership = Membership.new params.require(:membership).permit(:beer_club_id)
+    club = BeerClub.find membership_params[:beer_club_id]
 
-    respond_to do |format|
-      if @membership.save
-        format.html { redirect_to @membership, notice: 'Membership was successfully created.' }
-        format.json { render :show, status: :created, location: @membership }
-      else
-        format.html { render :new }
-        format.json { render json: @membership.errors, status: :unprocessable_entity }
-      end
+    # Save membership for current user only if there is one (someone has to signed in).
+    if not current_user.in? club.members and @membership.save
+      current_user.memberships << @membership
+      redirect_to current_user
+    else
+      @beer_clubs = BeerClub.all
+      render :new
     end
+
+    # respond_to do |format|
+    #   if @membership.save
+    #     format.html { redirect_to @membership, notice: 'Membership was successfully created.' }
+    #     format.json { render :show, status: :created, location: @membership }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @membership.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /memberships/1
