@@ -1,4 +1,5 @@
 class RatingsController < ApplicationController
+  #before_action :authenticate, only: [:edit, :update, :destroy]
 
   # GET /ratings
   def index
@@ -17,14 +18,16 @@ class RatingsController < ApplicationController
     # is same as;
     @rating = Rating.new params.require(:rating).permit(:score, :beer_id)
 
-    if @rating.save
-      current_user.ratings << @rating
-      # Stored in the session where rating was done
-      #session[:last_rating] = "#{rating.beer.name} - #{rating.score} points"
-      redirect_to current_user
-    else
-      @beers = Beer.all
-      render :new
+    if !current_user.nil?
+      if @rating.save
+        current_user.ratings << @rating
+        # Stored in the session where rating was done
+        #session[:last_rating] = "#{rating.beer.name} - #{rating.score} points"
+        redirect_to user_path current_user
+      else
+        @beers = Beer.all
+        render :new
+      end
     end
   end
 
