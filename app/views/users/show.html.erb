@@ -2,34 +2,39 @@
 
 <h1> <%= @user.username %> </h1>
 
-<h3>Member of Beer clubs</h3>
-  <% @user.memberships.each do |member| %>
-    <td><%= link_to member.beer_club, member.beer_club %></td>
-  <% end %>
+<% if @user.beer_clubs.any? %>
+  <h3>Member of Beer clubs</h3>
+    <% @user.memberships.each do |member| %>
+      <td><%= link_to member.beer_club, member.beer_club %></td>
+    <% end %>
+<% end %>
 
-<p>
-  <% if @user.ratings.any? %>
-    Has made <%= pluralize(@user.ratings.size, 'rating') %>, average score: <%= @user.average_rating.round(1) %>
-  <% end %>
-</p>
+<% if @user.ratings.any? %>
+  <p>
+    <% if @user.ratings.any? %>
+      Has made <%= pluralize(@user.ratings.size, 'rating') %>, average score: <%= @user.average_rating.round(1) %>
+    <% end %>
+  </p>
 
-<h3>Favourites</h3>
-<p>
-  Favourite style: <%= @user.favorite_style %>, brewery: <%= @user.favorite_brewery %>
-</p>
+  <h3>Favourites</h3>
+  <p>
+    Favourite style: <%= @user.favorite_style %>, brewery: <%= @user.favorite_brewery %>
+  </p>
 
-<h3>Ratings</h3>
+  <h3>Ratings</h3>
 
-<ol>
-  <% @user.ratings.each do |rating| %>
-    <li>
-      <%= rating %>
-      <% if @user == current_user %>
-        <%= link_to 'delete', rating, method: :delete, data: { confirm: 'Are you sure?' } %>
-      <% end %>
-    </li>
-  <% end %>
-</ol>
+  <ol>
+    <% @user.ratings.each do |rating| %>
+      <li>
+        <%= rating %>
+        <% if @user == current_user %>
+          <%= link_to 'delete', rating, method: :delete, data: { confirm: 'Are you sure?' } %>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+
+<% end %>
 
 <% if @user == current_user %>
   <%= link_to 'Edit', edit_user_path(@user) %> |
