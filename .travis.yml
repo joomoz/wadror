@@ -1,15 +1,15 @@
 language: ruby
 rvm:
 - 2.3.0
-
 script:
 - bundle exec rake db:migrate --trace
 - RAILS_ENV=test bundle exec rake db:migrate --trace
 - bundle exec rake db:test:prepare
 - bundle exec rspec -fd spec/
-
 deploy:
   provider: heroku
   api_key:
-    secure: ar/B3MFf7BOdUh2ChKw3PHT9zxBj/nDe7L7IxHbHzA4cihZRN/004drt7+hVUggx/MePqsrPLjptWa2OH4/nfx9B3f6ZE2dWDNj8szHn7IwEMX14BbnDItjlY2XvODu7KHsn8pU9QIfP1kqBAw2kb8XYDMENss92E/ovuwI7sFvReWpe/MZCjgUCqbKFfeT8OthF3+XczTieuRHWjrKbUbnR56Xo6eQJt1g6ZSB4E5Ra6pbpDjSdl+gXuKO4NKSnG34Lu9fz9L/02XkLY+CsDsca6Xh8+4UadyMIxXOur7r/SeK4ocqsjxSDgFFDhoysA8s+XZPq5U9ZobVe7W5F+JYoiz7WnMefQAX+NwoBhTngGrUYQbQsmxbgR1ouKF/wcojpDlfHp2fcVr/H2J9qimh+5Vvw8KAvKkxdZ2Kzuy4VEq5726Pf13Py/sUfX6BE+qNi8wClfn67FEtFedlHDmOs4z3ogeYoKrAXTrAIcwUuODz+Cd50qm8A7G3oNQSP2Vi9Isw8JQzcbiL7mbtodaf5tHZUOi7che9FPIcna3K39McPnNQUNrxi9jmTuvmg8hAmjn7GrVF9fdPUtvKdpWZ4Nph0oI+Hpn13BKi7kQteiwckzjyb/iBJfHnVQUhcPoZ3mUi5Hxp1xoLHkhvv4LRR9yRRgZjqbjDsHmoFgBs=
-    run: "rake db:migrate"
+    secure: LWUZOj0ZDD3Q1ZF979kH/gHvhGWH7+63EHeQGv0B+Ub95eSJGkE+ijqy1/Zq/ZHgaYbcIods+d7YpOrMIwmOwmcf/cQ+/zDTgmOQz0hPZ3YIo6vfOEiD7IjmsFGeUHFe/R6GCfa9Rc85ng3pF0pfMPsP7xAabjbhy3Up9ooPjfhibaXMoGI3pMYI1+l/7t4S9gB/sdg7XKQRLqm2Km3X+izvRtKelIOXSsPpEwZLRBYh9gQlhXHpd0Qqp2vKrXbegUBUiTpOT7s7L3LRK4eZWRLhkj8wsWLXzGYVn8SW6+QIZS3MCb+zt9gAMyVO5JXZi5EpsKVJFPy2JDSOzhbAB0NpOXheon/0RXJOtD1N2HGLGcdfLszH2hNwbgYQ7FffhDaUnymOLZ2j8csax/E7FT+oyqPX+l49z2HFO2cJYPQOl5hXzpfA2tKars0PATFMV6OtKVR/nsTVVJwY1iyGzvSbPVwRGyvhQ9isy+hlMV7wC7WlXsjBRRCxcdUcR2/6F3P6dsHTzIswF4OJTgQ2W8Hy7+rZStn54JhNYPXB0kcch7RxmS8Z6Fg9FUvGA+RyIP1preZHItSQyGVf+UnhI9MC/NqNz2EHTvPTdp5gnwN8kbSGiC1ysOk5lNyblcnK/XywdGlog9sQsV/BBNpJvwF4YvuewtzwFMXBm+5la4M=
+  app: infinite-fjord-61010
+  on:
+    repo: joomoz/wadror
