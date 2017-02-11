@@ -9,8 +9,8 @@ class Brewery < ActiveRecord::Base
   validate :acceptable_years
 
   def acceptable_years
-  	if self.year < 1042
-      	errors.add(:year, "can't be that old!")
+    if self.year < 1042
+      errors.add(:year, "can't be that old!")
     end
     if self.year > Date.current.year
       errors.add(:year, "- We are not in the future yet, are we?")

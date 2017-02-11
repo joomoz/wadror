@@ -34,7 +34,7 @@ class MembershipsController < ApplicationController
     # Save membership for current user only if there is one (someone has to signed in).
     respond_to do |format|
       # if not current_user.in? club.members and @membership.save
-      if not current_user.beer_clubs.include?  @membership.beer_club and @membership.save
+      if not current_user.beer_clubs.include? @membership.beer_club and @membership.save
         current_user.memberships << @membership
         # redirect_to current_user
         format.html { redirect_to current_user, notice: "You have joined #{@membership.beer_club.name}" }
