@@ -1,5 +1,4 @@
 class RatingsController < ApplicationController
-  #before_action :authenticate, only: [:edit, :update, :destroy]
 
   # GET /ratings
   def index

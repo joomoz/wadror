@@ -3,8 +3,11 @@ require 'rails_helper'
 include Helpers
 
 describe "Beer (page)" do
+  let!(:user) { FactoryGirl.create :user }
+  let!(:brewery) { FactoryGirl.create :brewery, name:"Koff" }
+
   before :each do
-    FactoryGirl.create :brewery, name:"Koff"
+    sign_in(username:"Pekka", password:"Foobar1")
   end
 
   it "can be added with a proper name" do
