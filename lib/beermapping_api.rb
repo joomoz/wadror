@@ -1,8 +1,13 @@
 class BeermappingApi
   def self.places_in(city)
     city = city.downcase
-    Rails.cache.fetch(city, expires_in: 5.minutes, race_condition_ttl: 60) { fetch_places_in(city) }
+    Rails.cache.fetch(city, expires_in: 15.minutes, race_condition_ttl: 60) { fetch_places_in(city) }
   end
+
+  def self.place(city, id)
+    places_in(city).select{ |place| place.id == id }.first
+  end
+
 
   private
 

@@ -28,8 +28,8 @@ class MembershipsController < ApplicationController
   def create
     @membership = Membership.new(membership_params)
     @membership.user = current_user
-    # @membership = Membership.new params.require(:membership).permit(:beer_club_id)
-    # club = BeerClub.find membership_params[:beer_club_id]
+    club = BeerClub.find membership_params[:beer_club_id]
+    name = (User.find_by id: @membership.user_id).username
 
     # Save membership for current user only if there is one (someone has to signed in).
     respond_to do |format|
@@ -37,7 +37,7 @@ class MembershipsController < ApplicationController
       if not current_user.beer_clubs.include? @membership.beer_club and @membership.save
         current_user.memberships << @membership
         # redirect_to current_user
-        format.html { redirect_to current_user, notice: "You have joined #{@membership.beer_club.name}" }
+        format.html { redirect_to beer_club_path(club), notice: "#{name}, welcome to the #{@membership.beer_club.name}!" }
         format.json { render :show, status: :created, location: @membership }
       else
         @beer_clubs = BeerClub.all - current_user.beer_clubs
@@ -64,10 +64,16 @@ class MembershipsController < ApplicationController
   # DELETE /memberships/1
   # DELETE /memberships/1.json
   def destroy
-    @membership.destroy
-    respond_to do |format|
-      format.html { redirect_to memberships_url, notice: 'Membership was successfully destroyed.' }
-      format.json { head :no_content }
+    byebug
+    @membership = Membership.user_id
+    user = User.find_by id: @membership.user_id
+
+    if current_user.beer_clubs.include? @membership.beer_club
+      @membership.destroy
+      respond_to do |format|
+        format.html { redirect_to user_path(user), notice: "Membership in #{@membership.beer_club.name} is ended." }
+        format.json { head :no_content }
+      end
     end
   end
 
