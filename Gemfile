@@ -30,6 +30,7 @@ group :test do
   gem 'launchy'
   gem 'simplecov', require: false
   gem 'coveralls', require: false
+  gem 'webmock'
 end
 
 group :production do
@@ -42,6 +43,7 @@ end
 ruby '2.3.0'
 
 gem 'bcrypt', '~> 3.1.7'
+gem 'httparty'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
