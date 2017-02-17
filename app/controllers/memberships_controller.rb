@@ -61,14 +61,11 @@ class MembershipsController < ApplicationController
     end
   end
 
-  # DELETE /memberships/1
+  # DELETE /memberships/1.
   # DELETE /memberships/1.json
   def destroy
-    byebug
-    @membership = Membership.user_id
-    user = User.find_by id: @membership.user_id
-
     if current_user.beer_clubs.include? @membership.beer_club
+      user = User.find_by id: @membership.user_id
       @membership.destroy
       respond_to do |format|
         format.html { redirect_to user_path(user), notice: "Membership in #{@membership.beer_club.name} is ended." }
