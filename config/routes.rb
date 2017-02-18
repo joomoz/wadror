@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :styles
   root 'breweries#index'
 
   resources :beer_clubs
