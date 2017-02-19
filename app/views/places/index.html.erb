@@ -6,11 +6,22 @@
   <%= submit_tag "Search" %>
 <% end %>
 
+<p>
+  <% if @weather %>
+    <h3>Current beer weather in <%= @weather['location']['name'] %></h3>
+    <%= image_tag @weather['current']['condition']['icon'] %> <br>
+    <%= @weather['current']['condition']['text'] %>,
+    temperature <%= @weather['current']['temp_c'] %> C
+    and wind speed <%= number_with_precision(@weather['current']['wind_kph']/3.5, precision: 1) %> m&#47;s
+    from the <%= @weather['current']['wind_dir'] %>.
+  <% end %>
+</p>
+
 <% if @places %>
   <table>
     <thead>
       <% Place.rendered_fields.each do |f| %>
-        <td><%= f %></td>
+        <td><strong><%= f %></strong></td>
       <% end %>
     </thead>
     <% @places.each do |place| %>
