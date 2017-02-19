@@ -7,5 +7,24 @@
   <%= @style.description %>
 </p>
 
-<%= link_to 'Edit', edit_style_path(@style) %> |
-<%= link_to 'Back', styles_path %>
+<table>
+  <thead>
+    <tr>
+      <th>Beer</th>
+      <th>Brewery</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @style.beers.each do |beer| %>
+      <tr>
+        <td><%= link_to beer.name, beer %></td>
+        <td><%= link_to beer.brewery.name, beer.brewery %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= link_to 'Edit', edit_style_path(@style) if current_user %> <br>
+<%= link_to 'Delete this style', @style, method: :delete, data: { confirm: 'Are you sure?' } if current_user%>
