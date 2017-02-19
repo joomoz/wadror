@@ -43,6 +43,8 @@ RSpec.describe User, type: :model do
 
   describe "favorite beer" do
       let(:user){FactoryGirl.create(:user) }
+      let(:style){FactoryGirl.create(:style) }
+      style2 = FactoryGirl.create :style2
 
       it "has method for determining one" do
         expect(user).to respond_to(:favorite_beer)
@@ -53,19 +55,22 @@ RSpec.describe User, type: :model do
       end
 
       it "is the only rated if only one beer rated" do
-        beer = create_beer_with_rating(user, "Lager", 10)
+        beer = create_beer_with_rating(user, style, 10)
         expect(user.favorite_beer).to eq(beer)
       end
 
       it "is the beer with highest rating if several rated" do
-        create_beers_with_ratings(user, "Lager", 10, 20, 15, 7, 9)
-        best = create_beer_with_rating(user, "IPA", 25)
+        create_beers_with_ratings(user, style, 10, 20, 15, 7, 9)
+        best = create_beer_with_rating(user, style2, 25)
         expect(user.favorite_beer).to eq(best)
       end
   end
 
   describe "favorite style" do
       let(:user){FactoryGirl.create(:user) }
+      let(:style){FactoryGirl.create(:style) }
+      style2 = FactoryGirl.create :style2
+      style3 = FactoryGirl.create :style3
 
       it "has method for determining one" do
         expect(user).to respond_to(:favorite_style)
@@ -76,15 +81,15 @@ RSpec.describe User, type: :model do
       end
 
       it "is the only rated if only one style rated" do
-        beer = create_beer_with_rating(user, "Lager", 10)
+        beer = create_beer_with_rating(user, style, 10)
         expect(user.favorite_style).to eq(beer.style)
       end
 
       it "is the style with highest rating if several rated" do
-        create_beers_with_ratings(user, "Lager", 10, 11, 12, 13, 14, 15)
-        create_beers_with_ratings(user, "Porter", 20, 25, 30)
-        create_beers_with_ratings(user, "IPA", 40, 45, 50)
-        expect(user.favorite_style).to eq("IPA")
+        create_beers_with_ratings(user, style, 10, 11, 12, 13, 14, 15)
+        create_beers_with_ratings(user, style2, 20, 25, 30)
+        create_beers_with_ratings(user, style3, 40, 45, 50)
+        expect(user.favorite_style).to eq(style3)
       end
 
   end
