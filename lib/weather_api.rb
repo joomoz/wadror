@@ -9,7 +9,7 @@ class WeatherApi
   def self.fetch_weather_in(city)
     url = "http://api.apixu.com/v1/current.json?key=#{key}&q="
     response = HTTParty.get "#{url}#{ERB::Util.url_encode(city)}"
-    return [] if response["error"]
+    return nil if response.code != 200 or response.parsed_response['error'] and response.parsed_response['error'].any?
     Weather.new(response)
   end
 

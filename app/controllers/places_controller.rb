@@ -1,9 +1,4 @@
-require 'beermapping_api'
-require 'weather_api'
-
 class PlacesController < ApplicationController
-  before_action :set_weather, only: [:search]
-
   def index
   end
 
@@ -13,6 +8,7 @@ class PlacesController < ApplicationController
 
   def search
     @places = BeermappingApi.places_in(params[:city])
+    @weather = WeatherApi.weather_in(params[:city])
 
     if @places.empty?
       redirect_to places_path, notice: "No locations in #{params[:city]}"
@@ -21,10 +17,5 @@ class PlacesController < ApplicationController
       render :index
     end
   end
-
-  private
-    def set_weather
-      @weather = WeatherApi.weather_in(params[:city])
-    end
 
 end
