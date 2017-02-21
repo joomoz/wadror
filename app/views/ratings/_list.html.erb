@@ -1,0 +1,17 @@
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th></th>
+    <th>average</th>
+  </tr>
+  </thead>
+
+  <tbody>
+    <% var.each do |parameter| %>
+      <tr>
+        <td><%= link_to parameter.name, parameter %></td>
+        <td><%= parameter.average_rating.round(1) %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h2><%= @style.name %></h2>
 
 <p>
@@ -26,5 +24,4 @@
 </table>
 
 <br>
-<%= link_to 'Edit', edit_style_path(@style) if current_user %> <br>
-<%= link_to 'Delete this style', @style, method: :delete, data: { confirm: 'Are you sure?' } if current_user%>
+<%= edit_and_destroy_buttons(@style) %>

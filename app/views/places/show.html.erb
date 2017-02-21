@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h2><%= @place.name %></h2>
 
 <p>
@@ -11,9 +9,11 @@
   <%= @place.phone %>
 </p>
 
-<iframe src="//www.google.com/maps/embed/v1/place?q=<%= @place.name %>,<%= @place.street %>,<%= @place.city %>,<%= @place.country %>
+<div class="google-maps">
+  <iframe src="//www.google.com/maps/embed/v1/place?q=<%= @place.name %>,<%= @place.street %>,<%= @place.city %>,<%= @place.country %>
       &zoom=14
       &key=<%= ENV['GOOGLE_API_KEY'] %>"
-      height = "400"
-      width="500">
+      width="600" height="450"
+      frameborder="0">
   </iframe>
+</div>

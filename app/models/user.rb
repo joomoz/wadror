@@ -15,6 +15,10 @@ class User < ActiveRecord::Base
                        format: { with: /.*[A-Z].*[0-9]|.*[0-9].*[A-Z]/,
                          message: "has to have at least one number and one capital letter"}
 
+   def self.top(n)
+     User.all.sort_by{ |user| -user.ratings.count }.first(n)
+   end
+
    def favorite_beer
      return nil if ratings.empty?
      ratings.order(score: :desc).limit(1).first.beer
@@ -39,7 +43,6 @@ class User < ActiveRecord::Base
      # sort the results and pick largest (last) average
      breweries.sort_by{|brewery| brewery_rating(brewery)}.last
    end
-
 
    #Helper methods
    private

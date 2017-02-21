@@ -8,6 +8,13 @@ class Brewery < ActiveRecord::Base
   validates :year, numericality: { only_integer: true }
   validate :acceptable_years
 
+  scope :active, -> { where active:true }
+  scope :retired, -> { where active:[nil,false] }
+
+  def self.top(n)
+    Brewery.all.sort_by{ |b| -(b.average_rating || 0) }.first(n)
+  end
+
   def acceptable_years
     if self.year < 1042
       errors.add(:year, "can't be that old!")

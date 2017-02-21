@@ -2,8 +2,12 @@ class RatingsController < ApplicationController
 
   # GET /ratings
   def index
-    #render :index    # renders viewtemplate /app/views/ratings/index.html
     @ratings = Rating.all
+    @recent_ratings = Rating.recent
+    @top_breweries = Brewery.top(3)
+    @top_beers = Beer.top(3)
+    @top_styles = Style.top(3)
+    @top_users = User.top(3)
   end
 
   # GET /ratings/new

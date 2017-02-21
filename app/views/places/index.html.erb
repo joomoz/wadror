@@ -1,4 +1,3 @@
-<p id="notice"><%= notice %></p>
 <h1>Beer places search</h1>
 
 <%= form_tag places_path do %>
@@ -12,13 +11,13 @@
     <%= image_tag @weather['current']['condition']['icon'] %> <br>
     <%= @weather['current']['condition']['text'] %>,
     temperature <%= @weather['current']['temp_c'] %> C
-    and wind speed <%= number_with_precision(@weather['current']['wind_kph']/3.5, precision: 1) %> m&#47;s
+    and wind speed <%= round(@weather['current']['wind_kph']/3.5) %> m&#47;s
     from the <%= @weather['current']['wind_dir'] %>.
   <% end %>
 </p>
 
 <% if @places %>
-  <table>
+  <table class="table table-hover table-condensed">
     <thead>
       <% Place.rendered_fields.each do |f| %>
         <td><strong><%= f %></strong></td>
@@ -30,6 +29,8 @@
           <td>
             <% if f == :name %>
               <%= link_to place.name, place_path(place.id) %>
+            <% elsif f == :overall %>
+              <%= round(place.send(f)) %>
             <% else %>
               <%= place.send(f) %>
             <% end %>
