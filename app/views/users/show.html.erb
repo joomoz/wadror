@@ -1,4 +1,16 @@
-<h1> <%= @user.username %> </h1>
+<h2><%= @user.username %>
+  <% if @user.admin  %>
+    <span class="label label-info label-sm">admin</span>
+  <% end %>
+  <% if @user.banned  %>
+    <span class="label label-info label-sm">Account frozen</span>
+  <% end %>
+  <% if current_user and current_user.admin and @user.banned %>
+    <%= link_to "Reactivate account", banned_user_path(@user.id), method: :post, class: "btn btn-warning" %>
+  <% elsif current_user and current_user.admin %>
+    <%= link_to "Freeze account", banned_user_path(@user.id), method: :post, class: "btn btn-warning" %>
+  <% end %>
+</h2>
 
 <% if @user.beer_clubs.any? %>
   <h3>Member of Beer clubs</h3>

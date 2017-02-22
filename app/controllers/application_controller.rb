@@ -15,4 +15,8 @@ class ApplicationController < ActionController::Base
     redirect_to signin_path, notice:'You have to be signed in first!' if not current_user
   end
 
+  def only_admins
+    redirect_to breweries_path, notice:'Only admins can do that!' if not current_user.admin
+  end
+
 end

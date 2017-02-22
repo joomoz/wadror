@@ -24,5 +24,12 @@
   <% end %>
 </p>
 
-<br>
-<%= edit_and_destroy_buttons(@brewery) %>
+<p>
+  <% if current_user and current_user.admin %>
+    <%= link_to "Change activity", toggle_activity_brewery_path(@brewery.id), method: :post, class: "btn btn-primary" %>
+  <% end %>
+</p>
+
+<p>
+  <%= edit_and_destroy_buttons(@brewery) %>
+</p>

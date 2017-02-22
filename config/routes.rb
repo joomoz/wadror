@@ -5,10 +5,14 @@ Rails.application.routes.draw do
 
   resources :beer_clubs
   resources :beers
-  resources :breweries
+  resources :breweries do
+    post 'toggle_activity', on: :member
+  end
   resources :memberships
   resources :ratings, only: [:index, :new, :create, :destroy]
-  resources :users
+  resources :users do
+    post 'banned', on: :member
+  end
 
   resource :session, only: [:new, :create, :destroy]
   resources :places, only:[:index, :show]
