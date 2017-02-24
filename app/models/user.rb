@@ -35,13 +35,13 @@ class User < ActiveRecord::Base
    end
 
    def favorite(category)
-    return nil if ratings.empty?
-    # List all uniq categories that user has rated
-    rated = ratings.map{ |r| r.beer.send(category) }.uniq
-    # Calculate averages for those vategories with rating_of method,
-    # sort the results and pick largest (last) average
-    rated.sort_by { |item| -rating_of(category, item) }.first
-  end
+     return nil if ratings.empty?
+     # List all uniq categories that user has rated
+     rated = ratings.map{ |r| r.beer.send(category) }.uniq
+     # Calculate averages for those vategories with rating_of method,
+     # sort the results and pick largest (last) average
+     rated.sort_by { |item| -rating_of(category, item) }.first
+   end
 
    # Calculate average rating for certain category
    def rating_of(category, item)

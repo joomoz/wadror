@@ -8,9 +8,6 @@ class BeermappingApi
     places_in(city).select{ |place| place.id == id }.first
   end
 
-
-  private
-
   def self.fetch_places_in(city)
     url = "http://beermapping.com/webservice/loccity/#{key}/"
 

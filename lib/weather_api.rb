@@ -4,8 +4,6 @@ class WeatherApi
     Rails.cache.fetch("#{city}weather", expires_in: 2.minutes, race_condition_ttl: 15) { fetch_weather_in(city) }
   end
 
-  private
-
   def self.fetch_weather_in(city)
     url = "http://api.apixu.com/v1/current.json?key=#{key}&q="
     response = HTTParty.get "#{url}#{ERB::Util.url_encode(city)}"
