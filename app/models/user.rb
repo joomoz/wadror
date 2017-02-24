@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
                        length: { minimum: 3, maximum: 30}
 
   validates :password, length: { minimum: 4},
-                       format: { with: /.*[A-Z].*[0-9]|.*[0-9].*[A-Z]/,
+                       format: { with: /([A-Z].*\d)|(\d.*[A-Z].*)/,
                          message: "has to have at least one number and one capital letter"}
 
    def self.top(n)
