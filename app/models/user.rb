@@ -26,42 +26,37 @@ class User < ActiveRecord::Base
 
    # Searches best average among different styles from user's ratings
    def favorite_style
-     return nil if ratings.empty?
-     # List all styles that user has rated
-     styles = ratings.map{ |rating| rating.beer.style }.uniq
-     # Calculate averages for those styles with style_rating method,
-     # sort the results and pick largest (last) average
-     styles.sort_by{|style| style_rating(style)}.last
+     favorite :style
    end
 
    # Searches best average among different breweries from user's ratings
    def favorite_brewery
-     return nil if ratings.empty?
-     # List all breweries that user has rated
-     breweries = ratings.map{ |rating| rating.beer.brewery }.uniq
-     # Calculate averages for those breweries with brewery_rating method,
-     # sort the results and pick largest (last) average
-     breweries.sort_by{|brewery| brewery_rating(brewery)}.last
+     favorite :brewery
    end
 
-   #Helper methods
-   private
+   def favorite(category)
+    return nil if ratings.empty?
+    # List all uniq categories that user has rated
+    rated = ratings.map{ |r| r.beer.send(category) }.uniq
+    # Calculate averages for those vategories with rating_of method,
+    # sort the results and pick largest (last) average
+    rated.sort_by { |item| -rating_of(category, item) }.first
+  end
 
-   # Calculate average rating for one style
-   def style_rating(style)
-     style_ratings = ratings.select{ |r| r.beer.style == style }
-     average(style_ratings)
+   # Calculate average rating for certain category
+   def rating_of(category, item)
+     ratings_of = ratings.select{ |r| r.beer.send(category) == item }
+     ratings_of.map(&:score).inject(&:+) / ratings_of.count.to_f
    end
 
-   # Calculate average rating for one brewery
-   def brewery_rating(brewery)
-     brewery_ratings = ratings.select{ |r| r.beer.brewery == brewery }
-     average(brewery_ratings)
-   end
+   # Helper methods
+   # private
 
    # Average rating method
-   def average(ratings)
-     ratings.inject(0.0){|sum, r| sum + r.score } / ratings.count
-   end
+   # def average(ratings)
+     # ratings.inject(0.0){|sum, r| sum + r.score } / ratings.count
+     # Alternative way
+     # ratings.map(&:score).inject(&:+) / ratings.count.to_f
+   # end
 
 end
