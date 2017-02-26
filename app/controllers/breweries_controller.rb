@@ -9,6 +9,32 @@ class BreweriesController < ApplicationController
   def index
     @active_breweries = Brewery.active
     @retired_breweries = Brewery.retired
+
+    order = params[:order] || 'name'
+    #binding.pry
+    if session[:sort_order] == 'asc'
+      @active_breweries = case order
+      when 'name' then @active_breweries = Brewery.active.order(:name)
+      when 'year' then @active_breweries = Brewery.active.order(:year)
+      end
+
+      @retired_breweries = case order
+      when 'name' then @retired_breweries = Brewery.retired.order(:name)
+      when 'year' then @retired_breweries = Brewery.retired.order(:year)
+      end
+      session[:sort_order] = 'desc'
+    else
+      @active_breweries = case order
+      when 'name' then @active_breweries = Brewery.active.order(:name).reverse
+      when 'year' then @active_breweries = Brewery.active.order(:year).reverse
+      end
+
+      @retired_breweries = case order
+      when 'name' then @retired_breweries = Brewery.retired.order(:name).reverse
+      when 'year' then @retired_breweries = Brewery.retired.order(:year).reverse
+      end
+      session[:sort_order] = 'asc'
+    end
   end
 
   # GET /breweries/1

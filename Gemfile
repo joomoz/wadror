@@ -46,6 +46,7 @@ ruby '2.3.0'
 gem 'bcrypt', '~> 3.1.7'
 gem 'httparty'
 gem 'bootstrap-sass'
+gem 'jquery-turbolinks'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
