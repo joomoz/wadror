@@ -32,6 +32,9 @@ group :test do
   gem 'simplecov', require: false
   gem 'coveralls', require: false
   gem 'webmock'
+  gem 'selenium-webdriver', '2.53.4'
+  gem 'database_cleaner'
+  gem 'headless'
 end
 
 group :production do
