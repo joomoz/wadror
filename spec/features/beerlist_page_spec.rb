@@ -36,4 +36,14 @@ describe "Beerlist page" do
     find('table').find('tr:nth-child(2)')
     expect(page).to have_content "Nikolai"
   end
+
+  it "shows beers in alphabetical order", js:true do
+    visit beerlist_path
+    expect(find('table').find('tr:nth-child(2)').to have_content "Fastenbier"
+    expect(find('table').find('tr:nth-child(3)').to have_content "Lechte Weisse"
+    expect(find('table').find('tr:nth-child(4)').to have_content "Nikolai"
+  end
+
+
+
 end
