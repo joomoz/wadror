@@ -89,7 +89,7 @@ RSpec.describe User, type: :model do
         create_beers_with_ratings(user, style, 10, 11, 12, 13, 14, 15)
         create_beers_with_ratings(user, style2, 20, 25, 30)
         create_beers_with_ratings(user, style3, 40, 45, 50)
-        expect(user.favorite_style).to eq(style3)
+        expect(user.favorite_style).to eq(style3) 
       end
 
   end
