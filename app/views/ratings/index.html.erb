@@ -1,13 +1,11 @@
-
 <h1>
   Rating statistics
   <% if current_user %>
-    <span class="btn btn-info btn-sm">
-      <%= link_to 'New Rating', new_rating_path %>
-    </span>
+  <span class="btn btn-info btn-sm">
+    <%= link_to 'New Rating', new_rating_path %>
+  </span>
   <% end %>
 </h1>
-
 <p> Number of ratings: <%= @ratings.count %> </p>
 
 <div class="row">
@@ -29,35 +27,35 @@
 
 <h2>Most active users</h2>
 
-
 <table class="table table-hover">
   <thead>
-  <tr>
-    <th></th>
-    <th>favourite beer</th>
-    <th>preferred style</th>
-    <th>favourite brewery</th>
-    <th>ratings</th>
-  </tr>
+    <tr>
+      <th></th>
+      <th>favourite beer</th>
+      <th>preferred style</th>
+      <th>favourite brewery</th>
+      <th>ratings</th>
+    </tr>
   </thead>
 
   <tbody>
     <% @top_users.each do |user| %>
-      <tr>
-        <td><%= link_to user.username, user %></td>
-        <td><%= user.favorite_beer.name %></td>
-        <td><%= user.favorite_style %></td>
-        <td><%= user.favorite_brewery %></td>
-        <td><%= user.ratings.count %></td>
-      </tr>
+    <tr>
+      <td><%= link_to user.username, user %></td>
+      <td><%= user.favorite_beer.name %></td>
+      <td><%= user.favorite_style %></td>
+      <td><%= user.favorite_brewery %></td>
+      <td><%= user.ratings.count %></td>
+    </tr>
     <% end %>
   </tbody>
 </table>
 
 
+
 <h2>Recent ratings</h2>
 <ul>
   <% @recent_ratings.each do |rating| %>
-    <li> <%= rating %> <%= link_to rating.user.username, rating.user  %> </li>
+  <li> <%= rating %> <%= link_to rating.user.username, rating.user  %> </li>
   <% end %>
 </ul>
