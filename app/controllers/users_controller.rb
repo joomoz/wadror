@@ -10,8 +10,8 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @confirmed_memberships = Membership.confirmed.where(user_id: current_user.id)
-    @pending_memberships = Membership.pending.where(user_id: current_user.id)
+    @confirmed_memberships = Membership.confirmed.where(user_id: params[:id])
+    @pending_memberships = Membership.pending.where(user_id: params[:id])
   end
 
   # GET /users/new
