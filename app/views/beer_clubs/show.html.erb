@@ -4,26 +4,35 @@
   <i>Since <%= @beer_club.founded %></i>
 </p>
 
-<% if @beer_club.memberships.any? %>
-  <p>
-    <strong>Members</strong>
-  </p>
-
+<% if @confirmed_memberships.any? %>
+  <p> <strong>Members</strong> </p>
   <ul>
-    <% @beer_club.members.each do |member| %>
+    <% @confirmed_memberships.each do |member| %>
       <li>
-      <%= link_to member.username, member %>
+      <%= link_to member.user.username, member.user %>
       </li>
     <% end %>
   </ul>
 <% else %>
-  <p>
-    <strong>No members</strong>
-  </p>
+  <p> <strong>No members</strong> </p>
+<% end %>
+
+<% if @pending_memberships.any? %>
+  <p> <strong>Pending membership applications</strong> </p>
+  <ul>
+    <% @pending_memberships.each do |member| %>
+      <li>
+      <%= link_to member.user.username, member.user %>
+        <% if current_user and current_user.memberships.confirmed.find_by(beer_club: @beer_club.id) %>
+          <%= link_to "Accept member", accept_membership_path(member.id), method: :post, class: "btn btn-xs btn-primary" %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
 <% end %>
 
 <% if current_user and not current_user.in? @beer_club.members%>
-  <%= form_for(@membership) do |f| %>
+  <%= form_for(@membership, method: "create") do |f| %>
       <%= f.hidden_field :beer_club_id %>
       <%= f.submit value:"Join The Club!" %>
    <% end %>

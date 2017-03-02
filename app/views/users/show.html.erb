@@ -12,26 +12,31 @@
   <% end %>
 </h2>
 
-<% if @user.beer_clubs.any? %>
+<% if @confirmed_memberships.any? %>
   <h3>Member of Beer clubs</h3>
-    <% @user.memberships.each do |member| %>
-      <td><%= link_to member.beer_club, member.beer_club %></td>
-    <% end %>
+    <ul>
+      <% @confirmed_memberships.each do |member| %>
+        <li><%= link_to member.beer_club, member.beer_club %></li>
+      <% end %>
+    </ul>
+<% end %>
+
+<% if @pending_memberships.any? %>
+  <h3>Pending membership applications</h3>
+    <ul>
+      <% @pending_memberships.each do |member| %>
+        <li><%= link_to member.beer_club, member.beer_club %></li>
+      <% end %>
+    </ul>
 <% end %>
 
 <% if @user.ratings.any? %>
+  <h3>Ratings</h3>
   <p>
     <% if @user.ratings.any? %>
       Has made <%= pluralize(@user.ratings.size, 'rating') %>, average score: <%= @user.average_rating.round(1) %>
     <% end %>
   </p>
-
-  <h3>Favourites</h3>
-  <p>
-    Favourite style: <%= @user.favorite_style %>, brewery: <%= @user.favorite_brewery %>
-  </p>
-
-  <h3>Ratings</h3>
 
   <ol>
     <% @user.ratings.each do |rating| %>
@@ -43,7 +48,14 @@
       </li>
     <% end %>
   </ol>
+
+  <h3>Favourites</h3>
+  <p>
+    Favourite style: <%= @user.favorite_style %>, brewery: <%= @user.favorite_brewery %>
+  </p>
+
 <% end %>
+
 
 <% if @user == current_user %>
   <div class="btn btn-warning btn-sm">

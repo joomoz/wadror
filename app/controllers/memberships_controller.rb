@@ -28,16 +28,14 @@ class MembershipsController < ApplicationController
   def create
     @membership = Membership.new(membership_params)
     @membership.user = current_user
-    club = BeerClub.find membership_params[:beer_club_id]
-    name = (User.find_by id: @membership.user_id).username
+    @membership.update_attribute :confirmed, false
 
-    # Save membership for current user only if there is one (someone has to signed in).
     respond_to do |format|
-      # if not current_user.in? club.members and @membership.save
-      if not current_user.beer_clubs.include? @membership.beer_club and @membership.save
-        current_user.memberships << @membership
-        # redirect_to current_user
-        format.html { redirect_to beer_club_path(club), notice: "#{name}, welcome to the #{@membership.beer_club.name}!" }
+      #if not current_user.beer_clubs.include? @membership.beer_club and @membership.save
+      if @membership.save
+        #current_user.memberships << @membership
+        format.html { redirect_to beer_club_path(@membership.beer_club),
+                      notice: "#{@membership.user.username}, you memberships is waiting for acceptance!" }
         format.json { render :show, status: :created, location: @membership }
       else
         @beer_clubs = BeerClub.all - current_user.beer_clubs
@@ -52,7 +50,7 @@ class MembershipsController < ApplicationController
   def update
     respond_to do |format|
       if @membership.update(membership_params)
-        format.html { redirect_to @membership, notice: 'Membership was successfully updated.' }
+        format.html { redirect_to @membership.beer_club, notice: 'Membership was successfully updated.' }
         format.json { render :show, status: :ok, location: @membership }
       else
         format.html { render :edit }
@@ -72,6 +70,12 @@ class MembershipsController < ApplicationController
         format.json { head :no_content }
       end
     end
+  end
+
+  def accept
+    membership = Membership.find(params[:id])
+    membership.update_attribute(:confirmed, true)
+    redirect_to :back, notice:"Membership accepted for #{membership.user.username}"
   end
 
   private

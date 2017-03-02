@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   resources :breweries do
     post 'toggle_activity', on: :member
   end
-  resources :memberships
+  resources :memberships do
+    post 'accept', on: :member
+  end
   resources :ratings, only: [:index, :new, :create, :destroy]
   resources :users do
     post 'banned', on: :member
