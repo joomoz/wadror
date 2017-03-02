@@ -2,7 +2,7 @@ class RatingsController < ApplicationController
 
   # GET /ratings
   def index
-    @ratings = Rating.all
+    @ratings = Rating.includes(:beer, :user).all
     @recent_ratings = Rating.recent
     @top_breweries = Brewery.top(3)
     @top_beers = Beer.top(3)

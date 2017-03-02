@@ -2,7 +2,12 @@ class BreweriesController < ApplicationController
   before_action :set_brewery, only: [:show, :edit, :update, :destroy]
   before_action :ensure_that_signed_in, except: [:index, :show, :list]
   before_action :only_admins, only: [:destroy]
+  before_action :skip_if_cached, only:[:index]
 
+  def skip_if_cached
+    @order = params[:order] || 'name'
+    return render :index if fragment_exist?( "brewerylist-#{@order}"  )
+  end
 
   # GET /breweries
   # GET /breweries.json
@@ -12,29 +17,29 @@ class BreweriesController < ApplicationController
     @retired_breweries = Brewery.retired
 
     order = params[:order] || 'name'
-    #binding.pry
-    if session[:sort_order] == 'asc'
-      @active_breweries = case order
+
+    if session[:sort_order] == 'desc'
+      @active_breweries = case @order #order
       when 'name' then @active_breweries = Brewery.active.order(:name)
       when 'year' then @active_breweries = Brewery.active.order(:year)
       end
 
-      @retired_breweries = case order
+      @retired_breweries = case @order
       when 'name' then @retired_breweries = Brewery.retired.order(:name)
       when 'year' then @retired_breweries = Brewery.retired.order(:year)
       end
-      session[:sort_order] = 'desc'
+      session[:sort_order] = 'asc'
     else
-      @active_breweries = case order
+      @active_breweries = case @order
       when 'name' then @active_breweries = Brewery.active.order(:name).reverse
       when 'year' then @active_breweries = Brewery.active.order(:year).reverse
       end
 
-      @retired_breweries = case order
+      @retired_breweries = case @order
       when 'name' then @retired_breweries = Brewery.retired.order(:name).reverse
       when 'year' then @retired_breweries = Brewery.retired.order(:year).reverse
       end
-      session[:sort_order] = 'asc'
+      session[:sort_order] = 'desc'
     end
   end
 
@@ -58,6 +63,7 @@ class BreweriesController < ApplicationController
   # POST /breweries
   # POST /breweries.json
   def create
+    ["brewerylist-name", "brewerylist-year"].each{ |f| expire_fragment(f) }
     @brewery = Brewery.new(brewery_params)
 
     respond_to do |format|
@@ -74,6 +80,7 @@ class BreweriesController < ApplicationController
   # PATCH/PUT /breweries/1
   # PATCH/PUT /breweries/1.json
   def update
+    ["brewerylist-name", "brewerylist-year"].each{ |f| expire_fragment(f) }
     respond_to do |format|
       if @brewery.update(brewery_params)
         format.html { redirect_to @brewery, notice: 'Brewery was successfully updated.' }
@@ -88,6 +95,7 @@ class BreweriesController < ApplicationController
   # DELETE /breweries/1
   # DELETE /breweries/1.json
   def destroy
+    ["brewerylist-name", "brewerylist-year"].each{ |f| expire_fragment(f) }
     @brewery.destroy
     respond_to do |format|
       format.html { redirect_to breweries_url, notice: 'Brewery was successfully destroyed.' }

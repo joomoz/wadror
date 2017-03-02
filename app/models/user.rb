@@ -21,7 +21,9 @@ class User < ActiveRecord::Base
 
    def favorite_beer
      return nil if ratings.empty?
-     ratings.order(score: :desc).limit(1).first.beer
+     ratings.sort_by{ |r| r.score }.last.beer
+     # SQL query is alone faster, but causes n+1 problem
+     # ratings.order(score: :desc).limit(1).first.beer
    end
 
    # Searches best average among different styles from user's ratings
