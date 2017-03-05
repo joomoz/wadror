@@ -33,6 +33,7 @@ group :test do
   gem 'coveralls', require: false
   gem 'webmock'
   gem 'selenium-webdriver', '2.53.4'
+  gem "chromedriver-helper"
   gem 'database_cleaner'
   gem 'headless'
 end
