@@ -18,7 +18,7 @@
       <li><%= link_to 'join a club', new_membership_path %></li>
       <li class="divider"></li>
       <button type="button" class="btn btn-info btn-sm center-block">
-        <span class="glyphicon glyphicon-off"></span> <li><%= link_to 'signout', 
+        <span class="glyphicon glyphicon-off"></span> <li><%= link_to 'signout',
         signout_path, method: :delete, data: {confirm: 'Sign out?'} %></li>
       </button>
     </ul>
@@ -27,4 +27,5 @@
 <% else %>
     <li><%= link_to 'signin', signin_path %></li>
     <li><%= link_to 'signup', signup_path %></li>
+    <li><%= link_to(image_tag("/assets/github.png", size: "22x22", class: 'image-responsive'), "/auth/github",  :method => :get) %> </li>
 <% end %>

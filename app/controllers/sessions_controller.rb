@@ -4,6 +4,20 @@ class SessionsController < ApplicationController
       # renders login-page
   end
 
+  def create_oauth
+    result = env["omniauth.auth"]
+    #binding.pry
+    user = User.find_by(username: result.info.nickname, provider: result.provider)
+    if user
+      session[:user_id] = user.id
+      redirect_to user, notice: "Welcome back #{params[:username]}!"
+    else
+      User.create_user_with_omniauth(result.info.nickname, result.provider)
+      session[:user_id] = user.id
+      redirect_to user, :notice => "Welcome #{params[:username]}!"
+    end
+  end
+
   def create
     # Finds the user from the db
     user = User.find_by username: params[:username]

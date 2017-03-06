@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   include RatingAverage
+  require 'securerandom'
 
   has_many :ratings, dependent: :destroy
   has_many :beers, through: :ratings
@@ -49,6 +50,17 @@ class User < ActiveRecord::Base
    def rating_of(category, item)
      ratings_of = ratings.select{ |r| r.beer.send(category) == item }
      ratings_of.map(&:score).inject(&:+) / ratings_of.count.to_f
+   end
+
+   def self.create_user_with_omniauth(nick, provider)
+     password = SecureRandom.base64
+     #User.create(username: nick, password: password, password_confirmation: password)
+     create! do |user|
+       user.username = nick
+       user.provider = provider
+       user.password = password
+       user.password_confirmation = password
+     end
    end
 
    # Helper methods
