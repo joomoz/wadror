@@ -41,6 +41,8 @@ class BreweriesController < ApplicationController
       end
       session[:sort_order] = 'desc'
     end
+    #Start RatingsJob asynchronically in the background
+    RatingsJob.perform_async
   end
 
   def list
