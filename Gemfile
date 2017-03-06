@@ -53,6 +53,7 @@ gem 'bootstrap-sass'
 gem 'jquery-turbolinks'
 gem 'rack-mini-profiler'
 gem 'sucker_punch', '~> 2.0'
+gem 'omniauth-github'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'

@@ -6,10 +6,10 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-users = 200           # jos koneesi on hidas, riittää esim 100
-breweries = 100       # jos koneesi on hidas, riittää esim 50
-beers_in_brewery = 40
-ratings_per_user = 30
+users = 50           # jos koneesi on hidas, riittää esim 100
+breweries = 30       # jos koneesi on hidas, riittää esim 50
+beers_in_brewery = 30
+ratings_per_user = 15
 
 (1..users).each do |i|
   User.create! username:"User_#{i}", password:"Sala1", password_confirmation:"Sala1"
