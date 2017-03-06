@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to user, notice: "Welcome back #{params[:username]}!"
     else
-      User.create_user_with_omniauth(result.info.nickname, result.provider)
+      user = User.create_user_with_omniauth(result.info.nickname, result.provider)
       session[:user_id] = user.id
       redirect_to user, :notice => "Welcome #{params[:username]}!"
     end
