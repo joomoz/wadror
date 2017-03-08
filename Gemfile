@@ -45,8 +45,8 @@ end
 
 # Ruby version
 # ruby '2.3.0p0'
-# ruby '2.3.0'
-ruby '2.3.1'
+ruby '2.3.0'
+# ruby '2.3.1'
 
 
 gem 'bcrypt', '~> 3.1.7'
